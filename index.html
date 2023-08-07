@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<body>  
+    <div id="root"></div>  <!-- react-dom이 react를 가져다 놓을 장소 -->
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>  <!-- react import -->
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>  <!-- react-dom import -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById("root");
+    //JSX (요즘 버전)
+    //function으로 작성해도 되고 () => 로 작성해도 된다(둘 다 함수라는 의미로 동일함)
+    //on + event 형식으로 작성해야됨
+    function App(){
+        const [minutes, setMinutes] = React.useState();
+        const onChange = (event) =>{
+            console.log(event);
+        };
+        return (
+            <div>
+                <h1 className="hi">Super Converter</h1>
+                <label htmlFor="minutes">Minutes</label>
+                <input 
+                    value={minutes} 
+                    id="minutes" 
+                    placeholder="Minutes" 
+                    type="number"
+                    onChange={onChange} 
+                />
+                <label htmlFor="hours">Hours</label>
+                <input id="hours" placeholder="Hours" type="number" />
+            </div>
+        );
+    }
+    //컴포넌트는 무조건 대문자로 시작  //컴포넌트들을 다른 컴포넌트에 집어넣음
+    ReactDOM.render(<App />, root); //react로 html을 만들어서 사용자에게 보여준다(react의 element들을 가져온다) / Container를 root에 담아준다
+</script>
+</html> 
