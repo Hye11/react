@@ -12,27 +12,74 @@
     //JSX (요즘 버전)
     //function으로 작성해도 되고 () => 로 작성해도 된다(둘 다 함수라는 의미로 동일함)
     //on + event 형식으로 작성해야됨
+    function MinutesToHours(){
+        const [amount, setAmount] = React.useState();
+        const [inverted, setInverted] = React.useState(false);
+        const onChange = (event) => {
+            setAmount(event.target.value);  //input에 작성한값
+        };
+        const reset = () => setAmount(0);
+        const onInvert = () => {
+            reset();
+            setInverted((current) => !current);  //현재 값을 뒤집어 준다(false면 true로)
+        };
+        return (
+            <div>
+                <div>
+                    <label htmlFor="minutes">Minutes</label>
+                    <input 
+                        value={inverted ? amount*60 : amount} 
+                        id="minutes" 
+                        placeholder="Minutes" 
+                        type="number"
+                        onChange={onChange} 
+                        disabled={inverted}
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="hours">Hours</label>
+                    <input 
+                        value={inverted ? amount : Math.round(amount / 60)}
+                        id="hours" 
+                        placeholder="Hours" 
+                        type="number"
+                        disabled={!inverted}  //inverted가 false면 input에 값 입력 못하게끔
+                        onChange={onChange}
+                    />
+                </div>
+
+                <button onClick={reset}>Reset</button>
+                <button onClick={onInvert}>{inverted ? "Turn back" : "Invert"}</button>
+            </div>
+        );
+    }
+    function KmToMiles(){
+        return (
+            <h3>KM To Miles</h3>
+        );
+    }
     function App(){
-        const [minutes, setMinutes] = React.useState();
-        const onChange = (event) =>{
-            console.log(event);
+        const [index, setIndex] = React.useState("x");
+        const onSelect = (event) => {
+            setIndex(event.target.value);
         };
         return (
             <div>
                 <h1 className="hi">Super Converter</h1>
-                <label htmlFor="minutes">Minutes</label>
-                <input 
-                    value={minutes} 
-                    id="minutes" 
-                    placeholder="Minutes" 
-                    type="number"
-                    onChange={onChange} 
-                />
-                <label htmlFor="hours">Hours</label>
-                <input id="hours" placeholder="Hours" type="number" />
+                <select value={index} onChange={onSelect}>
+                    <option value="x">Select your units</option>
+                    <option value="0">Minutes & Hours</option>
+                    <option value="1">Km & Miles</option>
+                </select>
+                <hr />
+                {index === "x" ? "Please select your units." : null}
+                {index === "0" ? <MinutesToHours /> : null}
+                {index === "1" ? <KmToMiles /> : null}
             </div>
         );
     }
+    //{} 안에 작성하면 javaScript로 인식한다
     //컴포넌트는 무조건 대문자로 시작  //컴포넌트들을 다른 컴포넌트에 집어넣음
     ReactDOM.render(<App />, root); //react로 html을 만들어서 사용자에게 보여준다(react의 element들을 가져온다) / Container를 root에 담아준다
 </script>
